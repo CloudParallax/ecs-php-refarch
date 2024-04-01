@@ -16,7 +16,6 @@ Metadata:
     - Label:
         default: Database Parameters
       Parameters:
-        - DatabaseInstanceType
         - DatabaseMasterUsername
         - DatabaseMasterPassword
         - DatabaseName
@@ -30,8 +29,6 @@ Metadata:
         default: Encrypted DB Cluster
       DatabaseCmk:
         default: AWS KMS Customer Master Key (CMK) to encrypt DB
-      DatabaseInstanceType:
-        default: DB Instance Class
       DatabaseMasterUsername:
         default: DB Master Username
       DatabaseMasterPassword:
@@ -56,23 +53,6 @@ Parameters:
     Type: String
   DatabaseCmk:
     Description: AWS KMS Customer Master Key (CMK) to encrypt database cluster
-    Type: String
-  DatabaseInstanceType:
-    AllowedValues:
-      - db.t3.small
-      - db.t3.medium
-      - db.m5d.large
-      - db.r5.large
-      - db.r5.xlarge
-      - db.r5.2xlarge
-      - db.r5.4xlarge
-      - db.r5.8xlarge
-      - db.r5.12large
-      - db.r5.16xlarge
-      - db.r5.24xlarge
-    ConstraintDescription: Must be a valid RDS instance class.
-    Default: db.t3.medium
-    Description: The Amazon RDS database instance class.
     Type: String
   DatabaseMasterUsername:
     AllowedPattern: ^([a-zA-Z0-9]*)$
