@@ -1,5 +1,6 @@
 ---
 AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
 
 Description: Reference Architecture to host WordPress on AWS - Creates CloudWatch Dashboard
 
@@ -86,7 +87,7 @@ Resources:
       DashboardBody:
         {"Fn::Join":
           [ "",
-          [ 
+          [
             '{"widgets": [
                   {
                       "type": "metric",
@@ -314,7 +315,7 @@ Resources:
       DashboardBody:
         {"Fn::Join":
           [ "",
-          [ 
+          [
             '{"widgets": [
                   {
                       "type": "metric",

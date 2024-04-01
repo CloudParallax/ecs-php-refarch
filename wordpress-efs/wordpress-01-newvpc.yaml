@@ -1,5 +1,6 @@
 ---
 AWSTemplateFormatVersion: 2010-09-09
+Transform: AWS::Serverless-2016-10-31
 
 Description: Reference Architecture to host WordPress on AWS - Creates New VPC
 
@@ -735,7 +736,7 @@ Resources:
     Type: AWS::EC2::SubnetRouteTableAssociation
     Properties:
       SubnetId: !Ref PublicSubnet5
-      RouteTableId: !Ref PublicRouteTable            
+      RouteTableId: !Ref PublicRouteTable
 
   PublicSubnet0:
     Condition: AZ0
@@ -863,7 +864,7 @@ Resources:
                 Resource: '*'
 
 Outputs:
-  
+
   Vpc:
     Value: !Ref Vpc
   VpcCidr:
@@ -882,7 +883,7 @@ Outputs:
     Value: !Ref PublicSubnet3
   PublicSubnet4:
     Condition: AZ4
-    Value: !Ref PublicSubnet4  
+    Value: !Ref PublicSubnet4
   PublicSubnet5:
     Condition: AZ5
     Value: !Ref PublicSubnet5
@@ -900,7 +901,7 @@ Outputs:
     Value: !Ref WebSubnet3
   WebSubnet4:
     Condition: AZ4
-    Value: !Ref WebSubnet4   
+    Value: !Ref WebSubnet4
   WebSubnet5:
     Condition: AZ5
     Value: !Ref WebSubnet5
@@ -918,7 +919,7 @@ Outputs:
     Value: !Ref DataSubnet3
   DataSubnet4:
     Condition: AZ4
-    Value: !Ref DataSubnet4  
+    Value: !Ref DataSubnet4
   DataSubnet5:
     Condition: AZ5
     Value: !Ref DataSubnet5
@@ -944,7 +945,7 @@ Outputs:
               ]
             ]
           ]
-        ] 
+        ]
   WebSubnet:
     Value:
       !If
@@ -967,7 +968,7 @@ Outputs:
               ]
             ]
           ]
-        ] 
+        ]
   PublicSubnet:
     Value:
       !If
@@ -990,5 +991,5 @@ Outputs:
               ]
             ]
           ]
-        ] 
+        ]
 
