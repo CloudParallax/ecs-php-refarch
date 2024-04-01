@@ -1,0 +1,80 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: A Lambda function triggered by an AWS API Gateway HTTP APIs call through
+  an Amazon SQS Queue for buffering
+Parameters:
+  QueueArn:
+    Type: String
+  QueueURL:
+    Type: String
+  QueueName:
+    Type: String
+  SSLCertificateArn:
+    Type: String
+  DeploymentDomain:
+    Type: String
+Resources:
+  MyHttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      AccessLogSettings:
+        DestinationArn:
+          Fn::GetAtt:
+          - MyHttpApiAccessLogs
+          - Arn
+        Format: '{ "requestId":"$context.requestId", "ip": "$context.identity.sourceIp",
+          "requestTime":"$context.requestTime", "httpMethod":"$context.httpMethod","routeKey":"$context.routeKey",
+          "status":"$context.status","protocol":"$context.protocol", "responseLength":"$context.responseLength"
+          }'
+      DefinitionBody:
+        Fn::Transform:
+          Name: AWS::Include
+          Parameters:
+            Location: ../../apigw/api.yaml
+  MyHttpApiRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - apigateway.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Policies:
+      - PolicyName: AllowSqsIntegration
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+          - Effect: Allow
+            Action:
+            - sqs:SendMessage
+            - sqs:GetQueueUrl
+            - sqs:SendMessageBatch
+            Resource:
+              Ref: QueueArn
+          - Effect: Allow
+            Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:DescribeLogGroups
+            - logs:DescribeLogStreams
+            - logs:PutLogEvents
+            - logs:GetLogEvents
+            - logs:FilterLogEvents
+            Resource:
+              Fn::GetAtt:
+              - MyHttpApiAccessLogs
+              - Arn
+  MyHttpApiAccessLogs:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: MyHttpApi-Access-Logs
+      RetentionInDays: 1
+Outputs:
+  MyHttpApiEndpoint:
+    Description: HTTP API endpoint
+    Value:
+      Fn::Sub: https://${MyHttpApi}.execute-api.${AWS::Region}.amazonaws.com

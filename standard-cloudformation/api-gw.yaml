@@ -1,0 +1,260 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'API Gateway for SQS Pushing'
+Parameters:
+  QueueArn:
+    Type: String
+  QueueURL:
+    Type: String
+  QueueName:
+    Type: String
+  SSLCertificateArn:
+    Type: String
+  DeploymentDomain:
+    Type: String
+  APIGWName:
+    Type: String
+Resources:
+  APIGateway:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Description: API Endpoint to receive JSON payloads and queue in SQS
+      Name: !Ref APIGWName
+#  DestinationQueue:
+#    Type: AWS::SQS::Queue
+#    Properties:
+#      DelaySeconds: 0
+#      MaximumMessageSize: 262144
+#      MessageRetentionPeriod: 1209600
+#      ReceiveMessageWaitTimeSeconds: 10
+#      VisibilityTimeout: 30
+
+  PolicySQS:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      PolicyDocument:
+        Statement:
+          - Action: SQS:*
+            Effect: Allow
+            Principal:
+              AWS: !Ref AWS::AccountId
+            Resource: !Ref QueueArn
+            Sid: Sid1517269801413
+        Version: '2012-10-17'
+      Queues:
+        - Ref: QueueURL
+  APIGatewayRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action:
+              - sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service:
+                - apigateway.amazonaws.com
+        Version: '2012-10-17'
+      Path: "/"
+      Policies:
+        - PolicyDocument:
+            Statement:
+              - Action: sqs:SendMessage
+                Effect: Allow
+                Resource: !Ref QueueArn
+              - Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Effect: Allow
+                Resource: "*"
+            Version: '2012-10-17'
+          PolicyName: api-gateway-sqs-send-msg-policy
+  v1Resource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Fn::GetAtt:
+          - APIGateway
+          - RootResourceId
+      PathPart: v1
+      RestApiId:
+        Ref: APIGateway
+  enqueueResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId:
+        Ref: v1Resource
+      PathPart: enqueue
+      RestApiId:
+        Ref: APIGateway
+  OptionsMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: NONE
+      ResourceId:
+        Ref: enqueueResource
+      RestApiId:
+        Ref: APIGateway
+      HttpMethod: OPTIONS
+      Integration:
+        IntegrationResponses:
+          - StatusCode: 200
+            ResponseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Methods: "'POST,OPTIONS'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+            ResponseTemplates:
+              application/json: ''
+        PassthroughBehavior: WHEN_NO_MATCH
+        RequestTemplates:
+          application/json: '{"statusCode": 200}'
+        Type: MOCK
+      MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: Empty
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Headers: false
+            method.response.header.Access-Control-Allow-Methods: false
+            method.response.header.Access-Control-Allow-Origin: false
+  PostMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      AuthorizationType: NONE
+      HttpMethod: ANY
+      Integration:
+        Credentials:
+          Fn::GetAtt:
+            - APIGatewayRole
+            - Arn
+        IntegrationHttpMethod: POST
+        IntegrationResponses:
+          - StatusCode: '200'
+            ResponseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        PassthroughBehavior: NEVER
+        RequestParameters:
+          integration.request.header.Content-Type: "'application/x-www-form-urlencoded'"
+        RequestTemplates:
+          application/x-www-form-urlencoded: 'Action=SendMessage&MessageBody=
+            #set($rawAPIData = $input.path("$"))
+            #set($countAmpersands = $rawAPIData.length() - $rawAPIData.replace("&", "").length())
+            #if ($countAmpersands == 0)
+              #set($rawAPIData = $rawAPIData + "&")
+            #end
+            #set($tokenisedAmpersand = $rawAPIData.split("&"))
+            #set($tokenisedEquals = {})
+            #foreach( $kvPair in $tokenisedAmpersand )
+              #set($countEquals = $kvPair.length() - $kvPair.replace("=", "").length())
+              #if ($countEquals == 1)
+                #set($kvTokenised = $kvPair.split("="))
+                #if ($kvTokenised[0].length() > 0 && $kvTokenised[1].length() > 0)
+                  #set($devNull = $tokenisedEquals.put($kvTokenised[0], $kvTokenised[1]))
+                #else
+                  #if ($kvTokenised[0].length() > 0)
+                    #set($devNull = $tokenisedEquals.put($kvTokenised[0], ""))
+                  #end
+                #end  
+              #end
+            #end
+            #if ($context.httpMethod == "POST")
+            #set($rawAPIDataQuery = $input.params().querystring)
+            #set($rawAPIDataQuery = $rawAPIDataQuery.toString())
+            #set($rawAPIDataQueryLength = $rawAPIDataQuery.length() - 1)
+            #set($rawAPIDataQuery = $rawAPIDataQuery.substring(1, $rawAPIDataQueryLength))
+            #set($rawAPIDataQuery = $rawAPIDataQuery.replace(", ", "&"))
+            #set($countAmpersandsQuery = $rawAPIDataQuery.length() - $rawAPIDataQuery.replace("&", "").length())
+            #if ($countAmpersandsQuery == 0)
+              #set($rawAPIDataQuery = $rawAPIDataQuery + "&")
+            #end
+            #set($tokenisedQueryAmpersand = $rawAPIDataQuery.split("&"))
+            #foreach( $kvPair in $tokenisedQueryAmpersand )
+              #set($countEquals = $kvPair.length() - $kvPair.replace("=", "").length())
+              #if ($countEquals == 1)
+                #set($kvTokenised = $kvPair.split("="))
+                #if ($kvTokenised[0].length() > 0 && $kvTokenised[1].length() > 0)
+                  #set($devNull = $tokenisedEquals.put($kvTokenised[0], $kvTokenised[1]))
+                #else
+                  #if ($kvTokenised[0].length() > 0)
+                    #set($devNull = $tokenisedEquals.put($kvTokenised[0], ""))
+                  #end
+                #end  
+              #end
+            #end
+            #end
+            {
+            #foreach( $key in $tokenisedEquals.keySet() )
+             "$util.urlDecode($key)" : #if($tokenisedEquals.get($key).length() > 0)"$tokenisedEquals.get($key)"#{else}""#end#if( $foreach.hasNext ),#end
+            #end
+            }'
+        Type: AWS
+        Uri:
+          Fn::Join:
+            - ''
+            - - 'arn:aws:apigateway:'
+              - Ref: AWS::Region
+              - ":sqs:path/"
+              - Ref: AWS::AccountId
+              - "/"
+              - Ref: QueueName
+      MethodResponses:
+        - ResponseModels:
+            application/json: Empty
+          StatusCode: '200'
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Origin: false
+      ResourceId:
+        Ref: enqueueResource
+      RestApiId:
+        Ref: APIGateway
+
+  Deployment:
+    DependsOn: PostMethod
+    Properties:
+      RestApiId:
+        Ref: APIGateway
+    Type: AWS::ApiGateway::Deployment
+  prodStage:
+    Properties:
+      DeploymentId:
+        Ref: Deployment
+      RestApiId:
+        Ref: APIGateway
+      StageName: prod
+    Type: AWS::ApiGateway::Stage
+#  ApiGWCustomDomain:
+#    Type: AWS::ApiGateway::DomainName
+#    Properties:
+#      DomainName: !Ref DeploymentDomain
+#      CertificateArn:
+#        Ref: SSLCertificateArn
+#      EndpointConfiguration:
+#        Types:
+#          - EDGE
+#      SecurityPolicy: TLS_1_2
+#  DNS:
+#    Type: AWS::Route53::RecordSet
+#    Properties:
+#      HostedZoneName: !Ref DeploymentDomain
+#      Name: !Ref DeploymentDomain
+#      Type: A
+#      AliasTarget:
+#        HostedZoneId:
+#          Fn::GetAtt:
+#            - ApiGWCustomDomain
+#            - DistributionHostedZoneId
+#        DNSName:
+#          Fn::GetAtt:
+#            - ApiGWCustomDomain
+#            - DistributionDomainName
+#  APIMapping:
+#    Type: AWS::ApiGateway::BasePathMapping
+#    Properties:
+#      DomainName: !Ref DeploymentDomain
+#      RestApiId:
+#        Ref: APIGateway
+#      Stage: prod
+
+Outputs:
+  TemplateID:
+    Value: 'API Gateway for SQS Pushing'
