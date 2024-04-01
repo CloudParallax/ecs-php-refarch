@@ -1,14 +1,9 @@
 ---
-AWSTemplateFormatVersion : '2010-09-09'
-Transform: AWS::Serverless-2016-10-31
-
+AWSTemplateFormatVersion: 2010-09-09
 
 Description: Reference Architecture to host WordPress on AWS - Creates bastion (desired:0; min:0; max:1) Auto Scaling group
 
 Metadata:
-
-
-
   AWS::CloudFormation::Interface:
     ParameterGroups:
     - Label:
@@ -38,95 +33,10 @@ Parameters:
     Type: AWS::EC2::SecurityGroup::Id
   BastionInstanceType:
     AllowedValues:
-    - t3.nano
-    - t3.micro
-    - t3.small
     - t3.medium
-    - t3.large
-    - t3.xlarge
-    - t3.2xlarge
-    - m3.medium 
-    - m3.large 
-    - m3.xlarge 
-    - m3.2xlarge 
-    - m4.large 
-    - m4.xlarge 
-    - m4.2xlarge 
-    - m4.4xlarge 
-    - m4.10xlarge 
-    - m4.16xlarge 
-    - m5.large 
-    - m5.xlarge 
-    - m5.2xlarge 
-    - m5.4xlarge 
-    - m5.12xlarge 
-    - m5.24xlarge 
-    - c3.large 
-    - c3.xlarge 
-    - c3.2xlarge 
-    - c3.4xlarge 
-    - c3.8xlarge 
-    - c4.large 
-    - c4.xlarge 
-    - c4.2xlarge 
-    - c4.4xlarge 
-    - c4.8xlarge 
-    - c5.large 
-    - c5.xlarge 
-    - c5.2xlarge 
-    - c5.4xlarge 
-    - c5.9xlarge 
-    - c5.18xlarge
-    - r3.large 
-    - r3.xlarge 
-    - r3.2xlarge 
-    - r3.4xlarge 
-    - r3.8xlarge 
-    - r4.large 
-    - r4.xlarge 
-    - r4.2xlarge 
-    - r4.4xlarge 
-    - r4.8xlarge 
-    - r4.16xlarge 
-    - x1.16xlarge 
-    - x1.32xlarge 
-    - x1e.xlarge 
-    - x1e.2xlarge 
-    - x1e.4xlarge 
-    - x1e.8xlarge 
-    - x1e.16xlarge 
-    - x1e.32xlarge
-    - d2.xlarge 
-    - d2.2xlarge 
-    - d2.4xlarge 
-    - d2.8xlarge 
-    - h1.2xlarge 
-    - h1.4xlarge 
-    - h1.8xlarge 
-    - h1.16xlarge 
-    - i2.xlarge 
-    - i2.2xlarge 
-    - i2.4xlarge 
-    - i2.8xlarge 
-    - i3.large 
-    - i3.xlarge 
-    - i3.2xlarge 
-    - i3.4xlarge 
-    - i3.8xlarge 
-    - i3.16xlarge
-    - f1.2xlarge 
-    - f1.16xlarge 
-    - g2.2xlarge 
-    - g2.8xlarge 
-    - g3.4xlarge 
-    - g3.8xlarge 
-    - g3.16xlarge 
-    - p2.xlarge 
-    - p2.8xlarge 
-    - p2.16xlarge 
-    - p3.2xlarge 
-    - p3.8xlarge 
-    - p3.16xlarge
+    - t3.micro
+    - t3.nano
+    - t3.small
     ConstraintDescription: Must be a valid Amazon EC2 instance type.
     Default: t3.nano
     Description: Bastion EC2 instance type.
@@ -193,33 +103,33 @@ Mappings:
 
   RegionMap:
     ap-northeast-1:
-      AMI: ami-da9e2cbc
+      AMI: ami-0de5311b2a443fb89
     ap-northeast-2:
-      AMI: ami-1196317f
+      AMI: ami-09cf633fe86e51bf0
     ap-south-1:
-      AMI: ami-d5c18eba
+      AMI: ami-0e6329e222e662a52
     ap-southeast-1:
-      AMI: ami-c63d6aa5
+      AMI: ami-094bbd9e922dc515d
     ap-southeast-2:
-      AMI: ami-ff4ea59d
+      AMI: ami-02a66f06b3557a897
     ca-central-1:
-      AMI: ami-d29e25b6
+      AMI: ami-088d4832275406edf
     eu-central-1:
-      AMI: ami-bf2ba8d0
+      AMI: ami-070b208e993b59cea
     eu-west-1:
-      AMI: ami-1a962263
+      AMI: ami-0ee415e1b8b71305f
     eu-west-2:
-      AMI: ami-e7d6c983
+      AMI: ami-0648ea225c13e0729
     sa-east-1:
-      AMI: ami-286f2a44
+      AMI: ami-0122c4b16734197ac
     us-east-1:
-      AMI: ami-55ef662f
+      AMI: ami-09d3b3274b6c5d4aa
     us-east-2:
-      AMI: ami-15e9c770
+      AMI: ami-089a545a9ed9893b6
     us-west-1:
-      AMI: ami-a51f27c5
+      AMI: ami-017c001a88dd93847
     us-west-2:
-      AMI: ami-bf4193c7
+      AMI: ami-0d593311db5abb72b
 
 Resources:
 
@@ -237,15 +147,20 @@ Resources:
           Value: !Join [ '', [ 'Bastion / ', !Ref 'AWS::StackName' ] ]
           PropagateAtLaunch: true
       VPCZoneIdentifier:
-        !If    [ NumberOfSubnets1,
+        !If
+          [ NumberOfSubnets1,
           [ !Select [ 0, !Ref Subnet ] ],
-          !If      [ NumberOfSubnets2,
+          !If
+            [ NumberOfSubnets2,
             [ !Select [ 0, !Ref Subnet ], !Select [ 1, !Ref Subnet ] ],
-            !If        [ NumberOfSubnets3,
+            !If
+              [ NumberOfSubnets3,
               [ !Select [ 0, !Ref Subnet ], !Select [ 1, !Ref Subnet ], !Select [ 2, !Ref Subnet ] ],
-              !If          [ NumberOfSubnets4,
+              !If
+                [ NumberOfSubnets4,
                 [ !Select [ 0, !Ref Subnet ], !Select [ 1, !Ref Subnet ], !Select [ 2, !Ref Subnet ], !Select [ 3, !Ref Subnet ] ],
-                !If            [ NumberOfSubnets5,
+                !If
+                  [ NumberOfSubnets5,
                   [ !Select [ 0, !Ref Subnet ], !Select [ 1, !Ref Subnet ], !Select [ 2, !Ref Subnet ], !Select [ 3, !Ref Subnet ], !Select [ 4, !Ref Subnet ] ],
                   [ !Select [ 0, !Ref Subnet ], !Select [ 1, !Ref Subnet ], !Select [ 2, !Ref Subnet ], !Select [ 3, !Ref Subnet ], !Select [ 4, !Ref Subnet ], !Select [ 5, !Ref Subnet ] ]
                   ]

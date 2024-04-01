@@ -1,8 +1,7 @@
 ---
-AWSTemplateFormatVersion : '2010-09-09'
-Transform: AWS::Serverless-2016-10-31
+AWSTemplateFormatVersion: 2010-09-09
 
-Description: Stack to deploy a highly available, elastic, scalable WordPress environment. This master stack launches multiple nested stacks for different tiers.
+Description: Stack to deploy a highly available, elastic, scalable WordPress environment. This master stack launches multiple nested stacks for different tiers. !! This can only be run in certain AWS Regions - 'us-east-1', 'us-east-2', 'us-west-2', 'eu-west-1'.
 
 Metadata:
   AWS::CloudFormation::Interface:
@@ -93,7 +92,7 @@ Metadata:
       CloudFrontAcmCertificate:
         default: CloudFront Certificate ARN
       DatabaseCmk:
-        default: AWS KMS CMK for RDS
+        default: AWS KMS CMK for RDS 
       DatabaseEncrpytedBoolean:
         default: Encrypted DB Cluster
       DatabaseInstanceType:
@@ -211,95 +210,10 @@ Parameters:
 
   BastionInstanceType:
     AllowedValues:
-    - t3.nano
-    - t3.micro
-    - t3.small
     - t3.medium
-    - t3.large
-    - t3.xlarge
-    - t3.2xlarge
-    - m3.medium
-    - m3.large
-    - m3.xlarge
-    - m3.2xlarge
-    - m4.large
-    - m4.xlarge
-    - m4.2xlarge
-    - m4.4xlarge
-    - m4.10xlarge
-    - m4.16xlarge
-    - m5.large
-    - m5.xlarge
-    - m5.2xlarge
-    - m5.4xlarge
-    - m5.12xlarge
-    - m5.24xlarge
-    - c3.large
-    - c3.xlarge
-    - c3.2xlarge
-    - c3.4xlarge
-    - c3.8xlarge
-    - c4.large
-    - c4.xlarge
-    - c4.2xlarge
-    - c4.4xlarge
-    - c4.8xlarge
-    - c5.large
-    - c5.xlarge
-    - c5.2xlarge
-    - c5.4xlarge
-    - c5.9xlarge
-    - c5.18xlarge
-    - r3.large
-    - r3.xlarge
-    - r3.2xlarge
-    - r3.4xlarge
-    - r3.8xlarge
-    - r4.large
-    - r4.xlarge
-    - r4.2xlarge
-    - r4.4xlarge
-    - r4.8xlarge
-    - r4.16xlarge
-    - x1.16xlarge
-    - x1.32xlarge
-    - x1e.xlarge
-    - x1e.2xlarge
-    - x1e.4xlarge
-    - x1e.8xlarge
-    - x1e.16xlarge
-    - x1e.32xlarge
-    - d2.xlarge
-    - d2.2xlarge
-    - d2.4xlarge
-    - d2.8xlarge
-    - h1.2xlarge
-    - h1.4xlarge
-    - h1.8xlarge
-    - h1.16xlarge
-    - i2.xlarge
-    - i2.2xlarge
-    - i2.4xlarge
-    - i2.8xlarge
-    - i3.large
-    - i3.xlarge
-    - i3.2xlarge
-    - i3.4xlarge
-    - i3.8xlarge
-    - i3.16xlarge
-    - f1.2xlarge
-    - f1.16xlarge
-    - g2.2xlarge
-    - g2.8xlarge
-    - g3.4xlarge
-    - g3.8xlarge
-    - g3.16xlarge
-    - p2.xlarge
-    - p2.8xlarge
-    - p2.16xlarge
-    - p3.2xlarge
-    - p3.8xlarge
-    - p3.16xlarge
+    - t3.micro
+    - t3.nano
+    - t3.small
     ConstraintDescription: Must be a valid Amazon EC2 instance type.
     Default: t3.nano
     Description: Bastion EC2 instance type.
@@ -321,6 +235,7 @@ Parameters:
   DatabaseInstanceType:
     AllowedValues:
       - db.t3.small
+      - db.m5d.large
       - db.t3.medium
       - db.r5.large
       - db.r5.xlarge
@@ -359,91 +274,6 @@ Parameters:
     - t3.micro
     - t3.small
     - t3.medium
-    - t3.large
-    - t3.xlarge
-    - t3.2xlarge
-    - m3.medium
-    - m3.large
-    - m3.xlarge
-    - m3.2xlarge
-    - m4.large
-    - m4.xlarge
-    - m4.2xlarge
-    - m4.4xlarge
-    - m4.10xlarge
-    - m4.16xlarge
-    - m5.large
-    - m5.xlarge
-    - m5.2xlarge
-    - m5.4xlarge
-    - m5.12xlarge
-    - m5.24xlarge
-    - c3.large
-    - c3.xlarge
-    - c3.2xlarge
-    - c3.4xlarge
-    - c3.8xlarge
-    - c4.large
-    - c4.xlarge
-    - c4.2xlarge
-    - c4.4xlarge
-    - c4.8xlarge
-    - c5.large
-    - c5.xlarge
-    - c5.2xlarge
-    - c5.4xlarge
-    - c5.9xlarge
-    - c5.18xlarge
-    - r3.large
-    - r3.xlarge
-    - r3.2xlarge
-    - r3.4xlarge
-    - r3.8xlarge
-    - r4.large
-    - r4.xlarge
-    - r4.2xlarge
-    - r4.4xlarge
-    - r4.8xlarge
-    - r4.16xlarge
-    - x1.16xlarge
-    - x1.32xlarge
-    - x1e.xlarge
-    - x1e.2xlarge
-    - x1e.4xlarge
-    - x1e.8xlarge
-    - x1e.16xlarge
-    - x1e.32xlarge
-    - d2.xlarge
-    - d2.2xlarge
-    - d2.4xlarge
-    - d2.8xlarge
-    - h1.2xlarge
-    - h1.4xlarge
-    - h1.8xlarge
-    - h1.16xlarge
-    - i2.xlarge
-    - i2.2xlarge
-    - i2.4xlarge
-    - i2.8xlarge
-    - i3.large
-    - i3.xlarge
-    - i3.2xlarge
-    - i3.4xlarge
-    - i3.8xlarge
-    - i3.16xlarge
-    - f1.2xlarge
-    - f1.16xlarge
-    - g2.2xlarge
-    - g2.8xlarge
-    - g3.4xlarge
-    - g3.8xlarge
-    - g3.16xlarge
-    - p2.xlarge
-    - p2.8xlarge
-    - p2.16xlarge
-    - p3.2xlarge
-    - p3.8xlarge
-    - p3.16xlarge
     ConstraintDescription: Must be a valid Amazon EC2 instance type.
     Default: t3.nano
     Description: The Amazon EC2 instance type that dynamically adjusts alarm thresholds based on permitted throughput changes.
@@ -497,86 +327,86 @@ Parameters:
     - t3.xlarge
     - t3.2xlarge
     - m3.medium
-    - m3.large
-    - m3.xlarge
-    - m3.2xlarge
-    - m4.large
-    - m4.xlarge
-    - m4.2xlarge
-    - m4.4xlarge
-    - m4.10xlarge
-    - m4.16xlarge
-    - m5.large
-    - m5.xlarge
-    - m5.2xlarge
-    - m5.4xlarge
-    - m5.12xlarge
-    - m5.24xlarge
-    - c3.large
-    - c3.xlarge
-    - c3.2xlarge
-    - c3.4xlarge
-    - c3.8xlarge
-    - c4.large
-    - c4.xlarge
-    - c4.2xlarge
-    - c4.4xlarge
-    - c4.8xlarge
-    - c5.large
-    - c5.xlarge
-    - c5.2xlarge
-    - c5.4xlarge
-    - c5.9xlarge
+    - m3.large 
+    - m3.xlarge 
+    - m3.2xlarge 
+    - m4.large 
+    - m4.xlarge 
+    - m4.2xlarge 
+    - m4.4xlarge 
+    - m4.10xlarge 
+    - m4.16xlarge 
+    - m5.large 
+    - m5.xlarge 
+    - m5.2xlarge 
+    - m5.4xlarge 
+    - m5.12xlarge 
+    - m5.24xlarge 
+    - c3.large 
+    - c3.xlarge 
+    - c3.2xlarge 
+    - c3.4xlarge 
+    - c3.8xlarge 
+    - c4.large 
+    - c4.xlarge 
+    - c4.2xlarge 
+    - c4.4xlarge 
+    - c4.8xlarge 
+    - c5.large 
+    - c5.xlarge 
+    - c5.2xlarge 
+    - c5.4xlarge 
+    - c5.9xlarge 
     - c5.18xlarge
-    - r3.large
-    - r3.xlarge
-    - r3.2xlarge
-    - r3.4xlarge
-    - r3.8xlarge
-    - r4.large
-    - r4.xlarge
-    - r4.2xlarge
-    - r4.4xlarge
-    - r4.8xlarge
-    - r4.16xlarge
-    - x1.16xlarge
-    - x1.32xlarge
-    - x1e.xlarge
-    - x1e.2xlarge
-    - x1e.4xlarge
-    - x1e.8xlarge
-    - x1e.16xlarge
+    - r3.large 
+    - r3.xlarge 
+    - r3.2xlarge 
+    - r3.4xlarge 
+    - r3.8xlarge 
+    - r4.large 
+    - r4.xlarge 
+    - r4.2xlarge 
+    - r4.4xlarge 
+    - r4.8xlarge 
+    - r4.16xlarge 
+    - x1.16xlarge 
+    - x1.32xlarge 
+    - x1e.xlarge 
+    - x1e.2xlarge 
+    - x1e.4xlarge 
+    - x1e.8xlarge 
+    - x1e.16xlarge 
     - x1e.32xlarge
-    - d2.xlarge
-    - d2.2xlarge
-    - d2.4xlarge
-    - d2.8xlarge
-    - h1.2xlarge
-    - h1.4xlarge
-    - h1.8xlarge
-    - h1.16xlarge
-    - i2.xlarge
-    - i2.2xlarge
-    - i2.4xlarge
-    - i2.8xlarge
-    - i3.large
-    - i3.xlarge
-    - i3.2xlarge
-    - i3.4xlarge
-    - i3.8xlarge
+    - d2.xlarge 
+    - d2.2xlarge 
+    - d2.4xlarge 
+    - d2.8xlarge 
+    - h1.2xlarge 
+    - h1.4xlarge 
+    - h1.8xlarge 
+    - h1.16xlarge 
+    - i2.xlarge 
+    - i2.2xlarge 
+    - i2.4xlarge 
+    - i2.8xlarge 
+    - i3.large 
+    - i3.xlarge 
+    - i3.2xlarge 
+    - i3.4xlarge 
+    - i3.8xlarge 
     - i3.16xlarge
-    - f1.2xlarge
-    - f1.16xlarge
-    - g2.2xlarge
-    - g2.8xlarge
-    - g3.4xlarge
-    - g3.8xlarge
-    - g3.16xlarge
-    - p2.xlarge
-    - p2.8xlarge
-    - p2.16xlarge
-    - p3.2xlarge
-    - p3.8xlarge
+    - f1.2xlarge 
+    - f1.16xlarge 
+    - g2.2xlarge 
+    - g2.8xlarge 
+    - g3.4xlarge 
+    - g3.8xlarge 
+    - g3.16xlarge 
+    - p2.xlarge 
+    - p2.8xlarge 
+    - p2.16xlarge 
+    - p3.2xlarge 
+    - p3.8xlarge 
     - p3.16xlarge
     ConstraintDescription: Must be a valid Amazon EC2 instance type.
     Default: r4.large
@@ -615,8 +445,9 @@ Parameters:
       - cache.r5.4xlarge
       - cache.r5.12xlarge
       - cache.r5.24xlarge
+      - cache.r6g.large
     ConstraintDescription: Must be a valid Amazon ElastiCache node type.
-    Default: cache.t3.medium
+    Default: cache.r6g.large
     Description: The Amazon ElastiCache cluster node type.
     Type: String
   EC2KeyName:
@@ -628,16 +459,12 @@ Parameters:
     Type: String
   PHPVersion:
     AllowedValues:
-    - 5.5
-    - 5.6
-    - 7.0
-    - 8.0
     - 8.1
-    - 8.2
-    - 8.3
-    Default: 8.3
+    - 8.0
+    - 7.4
+    Default: 8.1
     Description: The version of PHP to install.
-    Type: String
+    Type: String 
   PublicAlbAcmCertificate:
     AllowedPattern: ^$|(arn:aws:acm:)([a-z0-9/:-])*([a-z0-9])$
     Description: '[ Optional ] The AWS Certification Manager certificate ARN for the ALB certificate - this certificate should be created in the region you wish to run the ALB and must reference the WordPress domain name you use below.'
@@ -687,90 +514,6 @@ Parameters:
       - t3.small
       - t3.medium
       - t3.large
-      - t3.xlarge
-      - t3.2xlarge
-      - m3.medium
-      - m3.large
-      - m3.xlarge
-      - m3.2xlarge
-      - m4.large
-      - m4.xlarge
-      - m4.2xlarge
-      - m4.4xlarge
-      - m4.10xlarge
-      - m4.16xlarge
-      - m5.large
-      - m5.xlarge
-      - m5.2xlarge
-      - m5.4xlarge
-      - m5.12xlarge
-      - m5.24xlarge
-      - c3.large
-      - c3.xlarge
-      - c3.2xlarge
-      - c3.4xlarge
-      - c3.8xlarge
-      - c4.large
-      - c4.xlarge
-      - c4.2xlarge
-      - c4.4xlarge
-      - c4.8xlarge
-      - c5.large
-      - c5.xlarge
-      - c5.2xlarge
-      - c5.4xlarge
-      - c5.9xlarge
-      - c5.18xlarge
-      - r3.large
-      - r3.xlarge
-      - r3.2xlarge
-      - r3.4xlarge
-      - r3.8xlarge
-      - r4.large
-      - r4.xlarge
-      - r4.2xlarge
-      - r4.4xlarge
-      - r4.8xlarge
-      - r4.16xlarge
-      - x1.16xlarge
-      - x1.32xlarge
-      - x1e.xlarge
-      - x1e.2xlarge
-      - x1e.4xlarge
-      - x1e.8xlarge
-      - x1e.16xlarge
-      - x1e.32xlarge
-      - d2.xlarge
-      - d2.2xlarge
-      - d2.4xlarge
-      - d2.8xlarge
-      - h1.2xlarge
-      - h1.4xlarge
-      - h1.8xlarge
-      - h1.16xlarge
-      - i2.xlarge
-      - i2.2xlarge
-      - i2.4xlarge
-      - i2.8xlarge
-      - i3.large
-      - i3.xlarge
-      - i3.2xlarge
-      - i3.4xlarge
-      - i3.8xlarge
-      - i3.16xlarge
-      - f1.2xlarge
-      - f1.16xlarge
-      - g2.2xlarge
-      - g2.8xlarge
-      - g3.4xlarge
-      - g3.8xlarge
-      - g3.16xlarge
-      - p2.xlarge
-      - p2.8xlarge
-      - p2.16xlarge
-      - p3.2xlarge
-      - p3.8xlarge
-      - p3.16xlarge
     ConstraintDescription: Must be a valid Amazon EC2 instance type.
     Default: t3.large
     Description: The Amazon EC2 instance type for your web instances.
@@ -781,7 +524,7 @@ Parameters:
     Type: String
   WPAdminPassword:
     AllowedPattern: ^([a-zA-Z0-9`~!#$%^&*()_+,\\-])*$
-    ConstraintDescription: Must be letters (upper or lower), numbers, spaces, and these special characters `~!#$%^&*()_+,-
+    ConstraintDescription: Must be letters (upper or lower), numbers, spaces, and these special characters `~!#$%^&*()_+,-    
     Description: The WordPress admin password. Letters, numbers, spaces, and these special characters `~!#$%^&*()_+,-
     Type: String
     NoEcho: true
@@ -975,7 +718,7 @@ Conditions:
     - !Condition AvailableAWSRegion
   DeployCloudFront: !And
     - !Equals [ true, !Ref UseCloudFrontBoolean ]
-    - !Condition AvailableAWSRegion
+    - !Condition AvailableAWSRegion   
   DeployElastiCache: !And
     - !Equals [ true, !Ref UseElastiCacheBoolean ]
     - !Condition AvailableAWSRegion
@@ -984,8 +727,8 @@ Resources:
 
   bastion:
     Condition: AvailableAWSRegion
-    DependsOn: [  securitygroups ]
-    Type: AWS::Serverless::Application
+    DependsOn: [ newvpc, securitygroups ]
+    Type: AWS::CloudFormation::Stack
     Properties:
       Parameters:
         BastionInstanceType:
@@ -997,12 +740,12 @@ Resources:
         NumberOfSubnets:
           !Ref NumberOfAZs
         Subnet:
-          !GetAtt [  Outputs.PublicSubnet ]
-      Location: ./aws-refarch-wordpress-03-bastion.yaml
+          !GetAtt [ newvpc, Outputs.PublicSubnet ]
+      TemplateURL: https://s3.amazonaws.com/aws-refarch/wordpress/latest/templates/aws-refarch-wordpress-03-bastion.yaml
   cloudfront:
     Condition: DeployCloudFront
     DependsOn: [ publicalb, web ]
-    Type: AWS::Serverless::Application
+    Type: AWS::CloudFormation::Stack
     Properties:
       Parameters:
         CloudFrontAcmCertificate:
@@ -1011,11 +754,11 @@ Resources:
           !GetAtt [ publicalb, Outputs.PublicAlbDnsName ]
         WPDomainName:
           !Ref WPDomainName
-      Location: ./aws-refarch-wordpress-04-cloudfront.yaml
+      TemplateURL: https://s3.amazonaws.com/aws-refarch/wordpress/latest/templates/aws-refarch-wordpress-04-cloudfront.yaml
   dashboardwithalarms:
     Condition: EfsCreateAlarms
-    DependsOn: [  securitygroups, publicalb, efsfilesystem, rds, efsalarms ]
-    Type: AWS::Serverless::Application
+    DependsOn: [ newvpc, securitygroups, publicalb, efsfilesystem, rds, efsalarms ]
+    Type: AWS::CloudFormation::Stack
     Properties:
       Parameters:
         ElasticFileSystem:
@@ -1033,12 +776,12 @@ Resources:
         PublicAlbFullName:
           !GetAtt [ publicalb, Outputs.PublicAlbFullName ]
         EfsCreateAlarms:
-          !Ref EfsCreateAlarms
-      Location: ./aws-refarch-wordpress-06-dashboard.yaml
+          !Ref EfsCreateAlarms         
+      TemplateURL: https://s3.amazonaws.com/aws-refarch/wordpress/latest/templates/aws-refarch-wordpress-06-dashboard.yaml
   dashboardwithnoalarms:
     Condition: EfsCreateNoAlarms
-    DependsOn: [  securitygroups, publicalb, efsfilesystem, rds ]
-    Type: AWS::Serverless::Application
+    DependsOn: [ newvpc, securitygroups, publicalb, efsfilesystem, rds ]
+    Type: AWS::CloudFormation::Stack
     Properties:
       Parameters:
         ElasticFileSystem:
@@ -1048,11 +791,11 @@ Resources:
         PublicAlbFullName:
           !GetAtt [ publicalb, Outputs.PublicAlbFullName ]
         EfsCreateAlarms:
-          !Ref EfsCreateAlarms
-      Location: ./aws-refarch-wordpress-06-dashboard.yaml
+          !Ref EfsCreateAlarms         
+      TemplateURL: https://s3.amazonaws.com/aws-refarch/wordpress/latest/templates/aws-refarch-wordpress-06-dashboard.yaml
   efsfilesystem:
-    DependsOn: [  securitygroups ]
-    Type: AWS::Serverless::Application
+    DependsOn: [ newvpc, securitygroups ]
+    Type: AWS::CloudFormation::Stack
     Properties:
       Parameters:
         EncrpytedBoolean:
@@ -1061,6 +804,8 @@ Resources:
           !Ref EfsCmk
         EC2KeyName:
           !Ref EC2KeyName
+        WPDirectory:
+          !Ref WPDirectory
         SecurityGroup:
           !GetAtt [ securitygroups, Outputs.EfsSecurityGroup ]
         Growth:
@@ -1068,16 +813,16 @@ Resources:
         InstanceType:
           !Ref EfsGrowthInstanceType
         NumberOfSubnets:
-          !Ref NumberOfAZs
+          !Ref NumberOfAZs  
         PerformanceMode:
           !Ref EfsPerformanceMode
         Subnet:
-          !GetAtt [  Outputs.DataSubnet ]
-      Location: ./aws-refarch-wordpress-03-efsfilesystem.yaml
+          !GetAtt [ newvpc, Outputs.DataSubnet ]
+      TemplateURL: https://s3.amazonaws.com/aws-refarch/wordpress/latest/templates/aws-refarch-wordpress-03-efsfilesystem.yaml
   efsalarms:
     Condition: EfsCreateAlarms
     DependsOn: [ efsfilesystem ]
-    Type: AWS::Serverless::Application
+    Type: AWS::CloudFormation::Stack
     Properties:
       Parameters:
         CriticalThreshold:
@@ -1093,48 +838,99 @@ Resources:
         InstanceType:
           !Ref EfsAlarmsInstanceType
         NumberOfSubnets:
-          !Ref NumberOfAZs
+          !Ref NumberOfAZs  
         Subnet:
-          !GetAtt [  Outputs.DataSubnet ]
+          !GetAtt [ newvpc, Outputs.DataSubnet ]
         WarningThreshold:
           !Ref EfsWarningThreshold
-      Location: ./aws-refarch-wordpress-03-efsalarms.yaml
+      TemplateURL: https://s3.amazonaws.com/aws-refarch/wordpress/latest/templates/aws-refarch-wordpress-03-efsalarms.yaml
   elasticache:
     Condition: DeployElastiCache
-    DependsOn: [  securitygroups ]
-    Type: AWS::Serverless::Application
+    DependsOn: [ newvpc, securitygroups ]
+    Type: AWS::CloudFormation::Stack
     Properties:
       Parameters:
         Subnet:
-          !GetAtt [  Outputs.DataSubnet ]
+          !GetAtt [ newvpc, Outputs.DataSubnet ]
         ElastiCacheNodeType:
           !Ref ElastiCacheNodeType
         ElastiCacheSecurityGroup:
           !GetAtt [ securitygroups, Outputs.ElastiCacheSecurityGroup ]
         NumberOfSubnets:
           !Ref NumberOfAZs
-      Location: ./aws-refarch-wordpress-03-elasticache.yaml
+      TemplateURL: https://s3.amazonaws.com/aws-refarch/wordpress/latest/templates/aws-refarch-wordpress-03-elasticache.yaml
+  newvpc:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      Parameters:
+        NumberOfAZs:
+          !Ref NumberOfAZs
+        AvailabilityZones:
+          !Join
+            - ','
+            - !Ref AvailabilityZones
+        VpcCidr:
+          !Ref VpcCidr
+        VpcTenancy:
+          !Ref VpcTenancy
+        PublicSubnet0Cidr:
+          !Ref PublicSubnet0Cidr
+        PublicSubnet1Cidr:
+          !Ref PublicSubnet1Cidr
+        PublicSubnet2Cidr:
+          !Ref PublicSubnet2Cidr
+        PublicSubnet3Cidr:
+          !Ref PublicSubnet3Cidr
+        PublicSubnet4Cidr:
+          !Ref PublicSubnet4Cidr
+        PublicSubnet5Cidr:
+          !Ref PublicSubnet5Cidr
+        WebSubnet0Cidr:
+          !Ref WebSubnet0Cidr
+        WebSubnet1Cidr:
+          !Ref WebSubnet1Cidr
+        WebSubnet2Cidr:
+          !Ref WebSubnet2Cidr
+        WebSubnet3Cidr:
+          !Ref WebSubnet3Cidr
+        WebSubnet4Cidr:
+          !Ref WebSubnet4Cidr
+        WebSubnet5Cidr:
+          !Ref WebSubnet5Cidr
+        DataSubnet0Cidr:
+          !Ref DataSubnet0Cidr
+        DataSubnet1Cidr:
+          !Ref DataSubnet1Cidr
+        DataSubnet2Cidr:
+          !Ref DataSubnet2Cidr
+        DataSubnet3Cidr:
+          !Ref DataSubnet3Cidr
+        DataSubnet4Cidr:
+          !Ref DataSubnet4Cidr
+        DataSubnet5Cidr:
+          !Ref DataSubnet5Cidr
+      TemplateURL: https://s3.amazonaws.com/aws-refarch/wordpress/latest/templates/aws-refarch-wordpress-01-newvpc.yaml
   publicalb:
     Condition: AvailableAWSRegion
-    DependsOn: [  securitygroups ]
-    Type: AWS::Serverless::Application
+    DependsOn: [ newvpc, securitygroups ]
+    Type: AWS::CloudFormation::Stack
     Properties:
       Parameters:
         NumberOfSubnets:
           !Ref NumberOfAZs
         Subnet:
-          !GetAtt [  Outputs.PublicSubnet ]
+          !GetAtt [ newvpc, Outputs.PublicSubnet ]
         PublicAlbAcmCertificate:
           !Ref PublicAlbAcmCertificate
         PublicAlbSecurityGroup:
           !GetAtt [ securitygroups, Outputs.PublicAlbSecurityGroup ]
         Vpc:
-          !GetAtt [  Outputs.Vpc ]
-      Location: ./aws-refarch-wordpress-03-publicalb.yaml
+          !GetAtt [ newvpc, Outputs.Vpc ]
+      TemplateURL: https://s3.amazonaws.com/aws-refarch/wordpress/latest/templates/aws-refarch-wordpress-03-publicalb.yaml
   rds:
     Condition: AvailableAWSRegion
-    DependsOn: [  securitygroups ]
-    Type: AWS::Serverless::Application
+    DependsOn: [ newvpc, securitygroups ]
+    Type: AWS::CloudFormation::Stack
     Properties:
       Parameters:
         DatabaseInstanceType:
@@ -1152,14 +948,14 @@ Resources:
         DatabaseSecurityGroup:
           !GetAtt [ securitygroups, Outputs.DatabaseSecurityGroup ]
         Subnet:
-          !GetAtt [  Outputs.DataSubnet ]
+          !GetAtt [ newvpc, Outputs.DataSubnet ]
         NumberOfSubnets:
           !Ref NumberOfAZs
-      Location: ./aws-refarch-wordpress-03-rds.yaml
+      TemplateURL: https://s3.amazonaws.com/aws-refarch/wordpress/latest/templates/aws-refarch-wordpress-03-rds.yaml
   route53:
     Condition: CreateRecordSet
     DependsOn: [ publicalb, web ]
-    Type: AWS::Serverless::Application
+    Type: AWS::CloudFormation::Stack
     Properties:
       Parameters:
         DnsEndpoint:
@@ -1168,22 +964,22 @@ Resources:
           !If [ DeployCloudFront, 'Z2FDTNDATAQYW2', !GetAtt [ publicalb, Outputs.PublicAlbCanonicalHostedZoneId ] ]
         WPDomainName:
           !Ref WPDomainName
-      Location: ./aws-refarch-wordpress-05-route53.yaml
+      TemplateURL: https://s3.amazonaws.com/aws-refarch/wordpress/latest/templates/aws-refarch-wordpress-05-route53.yaml
   securitygroups:
     Condition: AvailableAWSRegion
     DependsOn: newvpc
-    Type: AWS::Serverless::Application
+    Type: AWS::CloudFormation::Stack
     Properties:
       Parameters:
         SshAccessCidr:
           !Ref SshAccessCidr
         Vpc:
-          !GetAtt [  Outputs.Vpc ]
-      Location: ./aws-refarch-wordpress-02-securitygroups.yaml
+          !GetAtt [ newvpc, Outputs.Vpc ]
+      TemplateURL: https://s3.amazonaws.com/aws-refarch/wordpress/latest/templates/aws-refarch-wordpress-02-securitygroups.yaml
   web:
     Condition: AvailableAWSRegion
-    DependsOn: [ efsfilesystem,  publicalb, securitygroups ]
-    Type: AWS::Serverless::Application
+    DependsOn: [ efsfilesystem, newvpc, publicalb, securitygroups ]
+    Type: AWS::CloudFormation::Stack
     Properties:
       Parameters:
         DatabaseClusterEndpointAddress:
@@ -1219,7 +1015,7 @@ Resources:
         WebSecurityGroup:
           !GetAtt [ securitygroups, Outputs.WebSecurityGroup ]
         Subnet:
-          !GetAtt [  Outputs.WebSubnet ]
+          !GetAtt [ newvpc, Outputs.WebSubnet ]
         WPAdminEmail:
           !Ref AdminEmail
         WPAdminPassword:
@@ -1236,7 +1032,7 @@ Resources:
           !Ref WPTitle
         WPVersion:
           !Ref WPVersion
-      Location: ./aws-refarch-wordpress-04-web.yaml
+      TemplateURL: https://s3.amazonaws.com/aws-refarch/wordpress/latest/templates/aws-refarch-wordpress-04-web.yaml
 
 Outputs:
 
@@ -1250,4 +1046,4 @@ Outputs:
     Description: A page to validate OpCache has been enabled for each instance in the ASG. Refresh the page to see the status of each instance in the ASG.
     Value: !Join [ '', [ !If [ CreateRecordSet, !Join [ '', [ 'http://www.', !Ref WPDomainName ] ], !If [ DeployCloudFront, !GetAtt [ cloudfront, Outputs.DnsHostname ], !GetAtt [ publicalb, Outputs.PublicAlbHostname ] ] ], '/opcache-instanceid.php' ] ]
 
-
+    

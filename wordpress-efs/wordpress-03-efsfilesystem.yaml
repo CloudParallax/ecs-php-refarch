@@ -1,14 +1,9 @@
 ---
-AWSTemplateFormatVersion : '2010-09-09'
-Transform: AWS::Serverless-2016-10-31
-
+AWSTemplateFormatVersion: 2010-09-09
 
 Description: Reference Architecture to host WordPress on AWS - Creates EFS file system
 
 Metadata:
-
-
-
   AWS::CloudFormation::Interface:
 
     ParameterGroups:
@@ -59,19 +54,12 @@ Parameters:
   Growth:
     ConstraintDescription: Must be an integer.
     Default: 0
-    Description: Amount of dummy data (GiB) to add to the file system (max 6144 GiB). Amazon EFS storage charges apply.
+    Description: Amount of dummy data (GiB) to add to the file system (max 6144 GiB). Amazon EFS storage charges apply. 
     MaxValue: 6144
     MinValue: 0
     Type: Number
   InstanceType:
     AllowedValues:
-      - t4g.nano
-      - t4g.micro
-      - t4g.small
-      - t4g.medium
-      - t4g.large
-      - t4g.xlarge
-      - t4g.2xlarge
       - t3.nano
       - t3.micro
       - t3.small
@@ -151,7 +139,7 @@ Parameters:
     - 6
     Default: 3
     Description: Number of subnets. This must match your selections in the list of Subnets below.
-    Type: String
+    Type: String 
   PerformanceMode:
     AllowedValues:
       - generalPurpose
@@ -159,21 +147,18 @@ Parameters:
     Default: generalPurpose
     Description: Select the performance mode of the file system.
     Type: String
-  EfsCopyDataFrom:
-    Description: Clone EFS from existing EFS
-    Type: String
   WPDirectory:
     Description: Wordpress directory
     Type: String
   SecurityGroup:
     Description: Select the Amazon EFS security group.
-    Type: AWS::EC2::SecurityGroup::Id
+    Type: AWS::EC2::SecurityGroup::Id   
   Subnet:
     Description: Select existing subnets.
     Type: List<AWS::EC2::Subnet::Id>
 
 Conditions:
-
+  
   NumberOfSubnets1:
       !Equals [ 1, !Ref NumberOfSubnets ]
   NumberOfSubnets2:
@@ -211,7 +196,7 @@ Conditions:
   Subnet4: !Or
     - !Condition NumberOfSubnets5
     - !Condition NumberOfSubnets6
-  Subnet5: !Condition NumberOfSubnets6
+  Subnet5: !Condition NumberOfSubnets6  
   UseAWS-ManagedCMK:
     !Equals ['', !Ref Cmk]
 
@@ -219,33 +204,33 @@ Mappings:
 
   RegionMap:
     ap-northeast-1:
-      AMI: ami-2a69be4c
+      AMI: ami-0de5311b2a443fb89
     ap-northeast-2:
-      AMI: ami-9bec36f5
+      AMI: ami-09cf633fe86e51bf0
     ap-south-1:
-      AMI: ami-4fc58420
+      AMI: ami-0e6329e222e662a52
     ap-southeast-1:
-      AMI: ami-0797ea64
+      AMI: ami-094bbd9e922dc515d
     ap-southeast-2:
-      AMI: ami-8536d6e7
+      AMI: ami-02a66f06b3557a897
     ca-central-1:
-      AMI: ami-fd55ec99
+      AMI: ami-088d4832275406edf
     eu-central-1:
-      AMI: ami-c7ee5ca8
+      AMI: ami-070b208e993b59cea
     eu-west-1:
-      AMI: ami-acd005d5
+      AMI: ami-0ee415e1b8b71305f
     eu-west-2:
-      AMI: ami-1a7f6d7e
+      AMI: ami-0648ea225c13e0729
     sa-east-1:
-      AMI: ami-f1344b9d
+      AMI: ami-0122c4b16734197ac
     us-east-1:
-      AMI: ami-8c1be5f6
+      AMI: ami-09d3b3274b6c5d4aa
     us-east-2:
-      AMI: ami-c5062ba0
+      AMI: ami-089a545a9ed9893b6
     us-west-1:
-      AMI: ami-02eada62
+      AMI: ami-017c001a88dd93847
     us-west-2:
-      AMI: ami-e689729e
+      AMI: ami-0d593311db5abb72b
 
 Resources:
 
@@ -353,15 +338,20 @@ Resources:
           Value: !Join [ '', [ 'EFS ', !Ref ElasticFileSystem, ' data load... will auto terminate.' ] ]
           PropagateAtLaunch: true
       VPCZoneIdentifier:
-        !If    [ NumberOfSubnets1,
+        !If
+          [ NumberOfSubnets1,
           [ !Select [ 0, !Ref Subnet ] ],
-          !If      [ NumberOfSubnets2,
+          !If
+            [ NumberOfSubnets2,
             [ !Select [ 0, !Ref Subnet ], !Select [ 1, !Ref Subnet ] ],
-            !If        [ NumberOfSubnets3,
+            !If
+              [ NumberOfSubnets3,
               [ !Select [ 0, !Ref Subnet ], !Select [ 1, !Ref Subnet ], !Select [ 2, !Ref Subnet ] ],
-              !If          [ NumberOfSubnets4,
+              !If
+                [ NumberOfSubnets4,
                 [ !Select [ 0, !Ref Subnet ], !Select [ 1, !Ref Subnet ], !Select [ 2, !Ref Subnet ], !Select [ 3, !Ref Subnet ] ],
-                !If            [ NumberOfSubnets5,
+                !If
+                  [ NumberOfSubnets5,
                   [ !Select [ 0, !Ref Subnet ], !Select [ 1, !Ref Subnet ], !Select [ 2, !Ref Subnet ], !Select [ 3, !Ref Subnet ], !Select [ 4, !Ref Subnet ] ],
                   [ !Select [ 0, !Ref Subnet ], !Select [ 1, !Ref Subnet ], !Select [ 2, !Ref Subnet ], !Select [ 3, !Ref Subnet ], !Select [ 4, !Ref Subnet ], !Select [ 5, !Ref Subnet ] ]
                   ]
@@ -392,7 +382,7 @@ Resources:
           efs_add_storage:
             - efs-add-storage
         efs-add-storage:
-          files:
+          files:              
             /tmp/efs-add-storage.sh:
               content: !Sub |
                 #!/bin/bash -x
@@ -512,13 +502,12 @@ Resources:
             "- yum --enablerepo=epel install nload -y\n",
             "- ntpstat\n",
             "- /opt/aws/bin/cfn-init --configsets efs_add_storage --verbose --stack ", !Ref 'AWS::StackName', " --resource LaunchConfiguration --region ", !Ref 'AWS::Region',"\n",
-            "- /tmp/efs-add-storage.sh ", !Ref ElasticFileSystem, " throughput_data ", !Ref Growth, " ", !Ref EfsCopyDataFrom, " ", !Ref WPDirectory, "\n",
             "- /opt/aws/bin/cfn-signal -e $? --stack ", !Ref 'AWS::StackName', " --resource AutoScalingGroup --region ", !Ref 'AWS::Region',"\n"
             ]
           ]
   EfsSizeMonitorFunction:
     Type: AWS::Lambda::Function
-    Properties:
+    Properties: 
       Code:
         ZipFile: !Sub |
           import boto3
@@ -573,7 +562,7 @@ Resources:
       FunctionName: !Join [ '', [ 'efs-', !Ref ElasticFileSystem, '-size-monitor' ] ]
       Handler: index.handler
       Role: !GetAtt LambdaRole.Arn
-      Runtime: python2.7
+      Runtime: python3.9
       Timeout: 60
   LambdaRole:
     Type: AWS::IAM::Role
@@ -591,16 +580,16 @@ Resources:
       ManagedPolicyArns:
       - arn:aws:iam::aws:policy/CloudWatchFullAccess
       - arn:aws:iam::aws:policy/AmazonElasticFileSystemReadOnlyAccess
-  EfsLambdaPermission:
+  EfsLambdaPermission: 
     Type: AWS::Lambda::Permission
-    Properties:
+    Properties: 
       FunctionName: !Ref EfsSizeMonitorFunction
       Action: lambda:InvokeFunction
       Principal: events.amazonaws.com
       SourceArn: !GetAtt EfsSizeMonitorEvent.Arn
   EfsSizeMonitorEvent:
     Type: AWS::Events::Rule
-    Properties:
+    Properties: 
       Description: Scheduled event to update SizeInBytes EFS CloudWatch metric
       Name: !Join [ '', [ 'efs-', !Ref ElasticFileSystem, '-size-monitor-scheduled-event' ] ]
       ScheduleExpression: rate(1 minute)
