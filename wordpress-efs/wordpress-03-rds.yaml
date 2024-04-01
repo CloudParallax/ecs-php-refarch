@@ -10,7 +10,7 @@ Metadata:
   License:
     Description: 'Copyright 2018 Amazon.com, Inc. and its affiliates. All Rights Reserved.
                   SPDX-License-Identifier: MIT-0'
-  
+
   AWS::CloudFormation::Interface:
     ParameterGroups:
     - Label:
@@ -20,18 +20,18 @@ Metadata:
         - DatabaseMasterUsername
         - DatabaseMasterPassword
         - DatabaseName
-        - DatabaseEncrpytedBoolean
+        - DatabaseEncryptedBoolean
         - DatabaseCmk
         - DatabaseSecurityGroup
         - NumberOfSubnets
         - Subnet
     ParameterLabels:
-      DatabaseEncrpytedBoolean:
+      DatabaseEncryptedBoolean:
         default: Encrypted DB Cluster
       DatabaseCmk:
-        default: AWS KMS Customer Master Key (CMK) to encrypt DB 
+        default: AWS KMS Customer Master Key (CMK) to encrypt DB
       DatabaseInstanceType:
-        default: DB Instance Class 
+        default: DB Instance Class
       DatabaseMasterUsername:
         default: DB Master Username
       DatabaseMasterPassword:
@@ -47,7 +47,7 @@ Metadata:
 
 Parameters:
 
-  DatabaseEncrpytedBoolean:
+  DatabaseEncryptedBoolean:
     AllowedValues:
       - true
       - false
@@ -83,7 +83,7 @@ Parameters:
     Type: String
   DatabaseMasterPassword:
     AllowedPattern: ^([a-z0-9A-Z`~!#$%^&*()_+,\\-])*$
-    ConstraintDescription: Must be letters (upper or lower), numbers, and these special characters '_'`~!#$%^&*()_+,-    
+    ConstraintDescription: Must be letters (upper or lower), numbers, and these special characters '_'`~!#$%^&*()_+,-
     Description: The Amazon RDS master password.
     MaxLength: 41
     MinLength: 8
@@ -105,7 +105,7 @@ Parameters:
     - 6
     Default: 3
     Description: Number of subnets. This must match your selections in the list of subnets below.
-    Type: String 
+    Type: String
   Subnet:
     Description: Select existing subnets. The number selected must match the number of subnets above. Subnets selected must be in separate AZs.
     Type: List<AWS::EC2::Subnet::Id>
@@ -161,44 +161,21 @@ Resources:
       BackupRetentionPeriod: 30
       DatabaseName: !Ref DatabaseName
       DBSubnetGroupName: !Ref DataSubnetGroup
-      Engine: aurora
+      Engine: aurora-mysql
+      ServerlessV2ScalingConfiguration:
+        MinCapacity: 0.5
+        MaxCapacity: 1
       KmsKeyId:
         !If [ UseAWS-ManagedCMK, !Ref 'AWS::NoValue', !Ref DatabaseCmk ]
       MasterUsername: !Ref DatabaseMasterUsername
       MasterUserPassword: !Ref DatabaseMasterPassword
       Port: 3306
-      StorageEncrypted: !Ref DatabaseEncrpytedBoolean
+      StorageEncrypted: !Ref DatabaseEncryptedBoolean
       Tags:
         - Key: Name
           Value: !Join [ '', [ 'WordPress / ', !Ref 'AWS::StackName' ] ]
       VpcSecurityGroupIds:
       - !Ref DatabaseSecurityGroup
-  DatabaseInstance0:
-    Type: AWS::RDS::DBInstance
-    DeletionPolicy: Delete
-    Properties:
-      AllowMajorVersionUpgrade: false
-      AutoMinorVersionUpgrade: true
-      DBClusterIdentifier: !Ref DatabaseCluster
-      DBInstanceClass: !Ref DatabaseInstanceType
-      DBSubnetGroupName: !Ref DataSubnetGroup
-      Engine: aurora
-      Tags:
-        - Key: Name
-          Value: !Join [ '', [ 'WordPress / ', !Ref 'AWS::StackName' ] ]
-  DatabaseInstance1:
-    Type: AWS::RDS::DBInstance
-    DeletionPolicy: Delete
-    Properties:
-      AllowMajorVersionUpgrade: false
-      AutoMinorVersionUpgrade: true
-      DBClusterIdentifier: !Ref DatabaseCluster
-      DBInstanceClass: !Ref DatabaseInstanceType
-      DBSubnetGroupName: !Ref DataSubnetGroup
-      Engine: aurora
-      Tags:
-        - Key: Name
-          Value: !Join [ '', [ 'WordPress / ', !Ref 'AWS::StackName' ] ]
   DataSubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
     Properties:
@@ -234,10 +211,6 @@ Outputs:
     Value: !Ref DatabaseCluster
   DatabaseName:
     Value: !Ref DatabaseName
-  DatabaseInstance0:
-    Value: !Ref DatabaseInstance0
-  DatabaseInstance1:
-    Value: !Ref DatabaseInstance1
   DataSubnetGroup:
     Value: !Ref DataSubnetGroup
   DatabaseClusterEndpointAddress:
