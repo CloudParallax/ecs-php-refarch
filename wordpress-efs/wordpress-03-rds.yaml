@@ -5,13 +5,6 @@ Transform: AWS::Serverless-2016-10-31
 Description: Reference Architecture to host WordPress on AWS - Creates RDS Aurora database cluster
 
 Metadata:
-
-  Authors:
-    Description: Darryl Osborne (darrylo@amazon.com)
-  License:
-    Description: 'Copyright 2018 Amazon.com, Inc. and its affiliates. All Rights Reserved.
-                  SPDX-License-Identifier: MIT-0'
-
   AWS::CloudFormation::Interface:
     ParameterGroups:
     - Label:
@@ -135,7 +128,13 @@ Conditions:
     !Equals ['', !Ref DatabaseCmk]
 
 Resources:
-
+  BackendDatabaseDefaultInstance:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      Engine: aurora-mysql
+      DBInstanceClass: db.serverless
+      DBClusterIdentifier: !Ref DatabaseCluster
+      MonitoringInterval: 0
   DatabaseCluster:
     Type: AWS::RDS::DBCluster
     Properties:

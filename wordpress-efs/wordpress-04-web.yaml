@@ -395,8 +395,8 @@ Resources:
                 !Join [
                   "",[
                   "#!/bin/bash -xe\n",
-                  "yum clean metadata",
-                  "yum install php8.2 -y",
+                  "yum clean metadata\n",
+                  "yum install php8.2 -y\n",
                   "if [ ! -f /etc/httpd/conf.d/", !Ref WPDirectory, ".conf ]; then\n",
                   "   touch /etc/httpd/conf.d/", !Ref WPDirectory, ".conf\n",
                   "   echo 'ServerName 127.0.0.1:80' >> /etc/httpd/conf.d/", !Ref WPDirectory, ".conf\n",
@@ -418,19 +418,12 @@ Resources:
               cwd: /tmp
               ignoreErrors: false
         build_cacheclient:
-          packages:
-            yum:
-              php-cli: []
-              php-pdo: []
-              php-devel: []
-              php-pear: []
-              php-mysqlnd: []
-              gcc-c++: []
           files:
             /tmp/install_cacheclient.sh:
               content:
                 !Sub |
                 #!/bin/bash -xe
+                sudo yum install -y php-cli php-devel php-pear php-mysqlnd php-opcache gcc-c++
                 sudo pecl install igbinary
                 wget --content-disposition https://elasticache-downloads.s3.amazonaws.com/ClusterClient/PHP-8.2/latest-64bit-arm-X86-openssl3 -P /tmp 
                 tar -xzf '/tmp/AmazonElastiCacheClusterClient-PHP82-64bit-arm-libmemcached-1.0.19-openssl3.tar.gz' -C /tmp/
@@ -444,9 +437,6 @@ Resources:
               owner: root
               group: root
         build_opcache:
-          packages:
-            yum:
-              php-opcache: []
           files:
             /tmp/install_opcache.sh:
               content:
@@ -456,9 +446,9 @@ Resources:
                 if [ ! -d /var/www/.opcache ]; then                    
                     mkdir -p /var/www/.opcache
                 fi
-                # enable opcache in /etc/php.d/opcache.ini
-                sed -i 's/;opcache.file_cache=.*/opcache.file_cache=\/var\/www\/.opcache/' /etc/php.d/opcache.ini
-                sed -i 's/opcache.memory_consumption=.*/opcache.memory_consumption=512/' /etc/php.d/opcache.ini
+                # enable opcache in /etc/php.d/10-opcache.ini
+                sed -i 's/;opcache.file_cache=.*/opcache.file_cache=\/var\/www\/.opcache/' /etc/php.d/10-opcache.ini
+                sed -i 's/opcache.memory_consumption=.*/opcache.memory_consumption=512/' /etc/php.d/10-opcache.ini
                 # download opcache-instance.php to verify opcache status
                 if [ ! -f /var/www/wordpress/${WPDirectory}/opcache-instanceid.php ]; then
                     wget -P /var/www/wordpress/${WPDirectory}/ https://s3.amazonaws.com/aws-refarch/wordpress/latest/bits/opcache-instanceid.php
@@ -491,7 +481,6 @@ Resources:
                   "       wp core download --version='", !Ref WPVersion, "' --locale='", !Ref WPLocale, "' --allow-root\n",
                   "       wp core config --dbname='", !Ref DatabaseName, "' --dbuser='", !Ref DatabaseMasterUsername, "' --dbpass='", !Ref DatabaseMasterPassword, "' --dbhost='", !Ref DatabaseClusterEndpointAddress, "' --dbprefix=wp_ --allow-root\n",
                   "       wp core install --url=", !If [ NoWPDomainName, !Ref PublicAlbHostname, !Join [ "", [ "'http://www.", !Ref WPDomainName, "'" ] ] ], " --title='", !Ref WPTitle, "' --admin_user='", !Ref WPAdminUsername, "' --admin_password='", !Ref WPAdminPassword, "' --admin_email='", !Ref WPAdminEmail, "' --skip-email --allow-root\n",
-                  "       wp plugin install w3-total-cache\n",
                   "       sed -i \"/$table_prefix = 'wp_';/ a \\define('WP_HOME', 'http://' . \\$_SERVER['HTTP_HOST']); \" /var/www/wordpress/", !Ref WPDirectory, "/wp-config.php\n",
                   "       sed -i \"/$table_prefix = 'wp_';/ a \\define('WP_SITEURL', 'http://' . \\$_SERVER['HTTP_HOST']); \" /var/www/wordpress/", !Ref WPDirectory, "/wp-config.php\n",
                   "       # enable HTTPS in wp-config.php if ACM Public SSL Certificate parameter was not empty\n",
@@ -701,7 +690,6 @@ Resources:
                   "       wp core download --version='", !Ref WPVersion, "' --locale='", !Ref WPLocale, "' --allow-root\n",
                   "       wp core config --dbname='", !Ref DatabaseName, "' --dbuser='", !Ref DatabaseMasterUsername, "' --dbpass='", !Ref DatabaseMasterPassword, "' --dbhost='", !Ref DatabaseClusterEndpointAddress, "' --dbprefix=wp_ --allow-root\n",
                   "       wp core install --url=", !If [ NoWPDomainName, !Ref PublicAlbHostname, !Join [ "", [ "'http://www.", !Ref WPDomainName, "'" ] ] ], " --title='", !Ref WPTitle, "' --admin_user='", !Ref WPAdminUsername, "' --admin_password='", !Ref WPAdminPassword, "' --admin_email='", !Ref WPAdminEmail, "' --skip-email --allow-root\n",
-                  "       wp plugin install w3-total-cache\n",
                   "       sed -i \"/$table_prefix = 'wp_';/ a \\define('WP_HOME', 'http://' . \\$_SERVER['HTTP_HOST']); \" /var/www/wordpress/", !Ref WPDirectory, "/wp-config.php\n",
                   "       sed -i \"/$table_prefix = 'wp_';/ a \\define('WP_SITEURL', 'http://' . \\$_SERVER['HTTP_HOST']); \" /var/www/wordpress/", !Ref WPDirectory, "/wp-config.php\n",
                   "       # enable HTTPS in wp-config.php if ACM Public SSL Certificate parameter was not empty\n",

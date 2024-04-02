@@ -956,7 +956,7 @@ Resources:
       Location: ./wordpress-02-securitygroups.yaml
   web:
     Condition: AvailableAWSRegion
-    DependsOn: [ efsfilesystem, newvpc, publicalb, securitygroups ,elasticache  ]
+    DependsOn: [ efsfilesystem, newvpc, publicalb, securitygroups  ]
     Type: AWS::Serverless::Application
     Properties:
       Parameters:
@@ -993,7 +993,7 @@ Resources:
         WebSecurityGroup:
           !GetAtt [ securitygroups, Outputs.WebSecurityGroup ]
         Subnet:
-          !GetAtt [ newvpc, Outputs.WebSubnet ]
+          !GetAtt [ newvpc, Outputs.PublicSubnet ]
         WPAdminEmail:
           !Ref AdminEmail
         WPAdminPassword:
