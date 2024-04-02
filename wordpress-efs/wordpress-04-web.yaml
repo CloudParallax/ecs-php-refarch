@@ -387,9 +387,8 @@ Resources:
         install_webserver:
           packages:
             yum:
-              awslogs: []
+              amazon-cloudwatch-agent: []
               httpd: []
-              mariadb-server: []
           files:
             /tmp/create_site_conf.sh:
               content:
@@ -397,7 +396,7 @@ Resources:
                   "",[
                   "#!/bin/bash -xe\n",
                   "yum clean metadata",
-                  "yum install php8.2",
+                  "yum install php8.2 -y",
                   "if [ ! -f /etc/httpd/conf.d/", !Ref WPDirectory, ".conf ]; then\n",
                   "   touch /etc/httpd/conf.d/", !Ref WPDirectory, ".conf\n",
                   "   echo 'ServerName 127.0.0.1:80' >> /etc/httpd/conf.d/", !Ref WPDirectory, ".conf\n",
@@ -433,14 +432,14 @@ Resources:
                 !Sub |
                 #!/bin/bash -xe
                 sudo pecl install igbinary
-                wget -P /tmp/ https://elasticache-downloads.s3.amazonaws.com/ClusterClient/PHP-8.2/latest-64bit-X86-openssl1.1 -o /tmp/AmazonElastiCacheClusterClient-PHP82-64bit-libmemcached-1.0.19-openssl1.1.tar.gz 
-                tar -xf '/tmp/AmazonElastiCacheClusterClient-PHP82-64bit-libmemcached-1.0.19-openssl1.1.tar.gz'
-                cp '/tmp/AmazonElastiCacheClusterClient-PHP82-64bit-libmemcached-1.0.19-openssl1.1.so' /usr/lib64/php/modules/
+                wget --content-disposition https://elasticache-downloads.s3.amazonaws.com/ClusterClient/PHP-8.2/latest-64bit-arm-X86-openssl3 -P /tmp 
+                tar -xzf '/tmp/AmazonElastiCacheClusterClient-PHP82-64bit-arm-libmemcached-1.0.19-openssl3.tar.gz' -C /tmp/
+                cp '/tmp/amazon-elasticache-cluster-client.so' /usr/lib64/php8.2/modules/
                 if [ ! -f /etc/php.d/50-memcached.ini ]; then
                     touch /etc/php.d/50-memcached.ini
                 fi
                 echo 'extension=igbinary.so;' >> /etc/php.d/50-memcached.ini
-                echo 'extension=/usr/lib64/php/modules/AmazonElastiCacheClusterClient-PHP82-64bit-libmemcached-1.0.19-openssl1.1.so;' >> /etc/php.d/50-memcached.ini
+                echo 'extension=/usr/lib64/php8.2/modules/amazon-elasticache-cluster-client.so;' >> /etc/php.d/50-memcached.ini
               mode: 000500
               owner: root
               group: root
@@ -557,7 +556,7 @@ Resources:
               ignoreErrors: false
         start_webserver:
           services:
-            sysvinit:
+            systemd:
               httpd:
                 enabled: true
                 ensureRunning: true
@@ -574,7 +573,6 @@ Resources:
           !Sub |
           #!/bin/bash -xe
           yum update -y
-          amazon-linux-extras enable php8.2
           yum clean metadata
           mkdir -p /var/www/wordpress
           mount -t nfs4 -o nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2 ${ElasticFileSystem}.efs.${AWS::Region}.amazonaws.com:/ /var/www/wordpress
@@ -600,7 +598,7 @@ Resources:
         install_webserver:
           packages:
             yum:
-              awslogs: []
+              amazon-cloudwatch-agent: []
               httpd24: []
               mysql56: []
               php74: []

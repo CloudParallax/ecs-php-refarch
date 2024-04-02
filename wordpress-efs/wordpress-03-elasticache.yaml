@@ -28,6 +28,7 @@ Parameters:
 
   ElastiCacheNodeType:
     AllowedValues:
+      - cache.t4g.micro
       - cache.t3.micro
       - cache.t3.small
       - cache.t3.medium
@@ -48,7 +49,7 @@ Parameters:
       - cache.r5.24xlarge
       - cache.r6g.large
     ConstraintDescription: Must be a valid Amazon ElastiCache node type.
-    Default: cache.r6g.large
+    Default: cache.t4g.micro
     Description: The Amazon ElastiCache cluster node type.
     Type: String
   ElastiCacheSecurityGroup:

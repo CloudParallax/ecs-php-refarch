@@ -408,6 +408,7 @@ Parameters:
     Type: String
   ElastiCacheNodeType:
     AllowedValues:
+      - cache.t4g.micro
       - cache.t3.micro
       - cache.t3.small
       - cache.t3.medium
@@ -428,7 +429,7 @@ Parameters:
       - cache.r5.24xlarge
       - cache.r6g.large
     ConstraintDescription: Must be a valid Amazon ElastiCache node type.
-    Default: cache.r6g.large
+    Default: cache.t4g.micro
     Description: The Amazon ElastiCache cluster node type.
     Type: String
   EC2KeyName:
@@ -440,10 +441,9 @@ Parameters:
     Type: String
   PHPVersion:
     AllowedValues:
-    - 8.1
-    - 8.0
+    - 8.2
     - 7.4
-    Default: 8.1
+    Default: 8.2
     Description: The version of PHP to install.
     Type: String
   PublicAlbAcmCertificate:
@@ -490,13 +490,12 @@ Parameters:
     Type: String
   WebInstanceType:
     AllowedValues:
-      - t3.nano
-      - t3.micro
-      - t3.small
-      - t3.medium
-      - t3.large
+      - t4g.nano
+      - t4g.micro
+      - t4g.small
+      - t4g.medium
+      - t4g.large
     ConstraintDescription: Must be a valid Amazon EC2 instance type.
-    Default: t3.large
     Description: The Amazon EC2 instance type for your web instances.
     Type: String
   AdminEmail:
@@ -688,7 +687,7 @@ Conditions:
       !Equals [ !Ref 'AWS::Region', eu-west-1 ],
       !Equals [ !Ref 'AWS::Region', us-east-1 ],
       !Equals [ !Ref 'AWS::Region', us-east-2 ],
-      !Equals [ !Ref 'AWS::Region', us-west-2 ]
+      !Equals [ !Ref 'AWS::Region', us-west-1 ]
     ]
   EfsCreateAlarms:
     !Equals [ true, !Ref EfsCreateAlarms ]
@@ -957,7 +956,7 @@ Resources:
       Location: ./wordpress-02-securitygroups.yaml
   web:
     Condition: AvailableAWSRegion
-    DependsOn: [ efsfilesystem, newvpc, publicalb, securitygroups ]
+    DependsOn: [ efsfilesystem, newvpc, publicalb, securitygroups ,elasticache  ]
     Type: AWS::Serverless::Application
     Properties:
       Parameters:
