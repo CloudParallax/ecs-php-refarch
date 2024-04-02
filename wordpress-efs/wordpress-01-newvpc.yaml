@@ -340,42 +340,42 @@ Resources:
           Value: Private
       VpcId: !Ref Vpc
 
-  WebSubnetRouteTableAssociation0:
-    Condition: AZ0
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      RouteTableId: !Ref NatRouteTable0
-      SubnetId: !Ref WebSubnet0
-  WebSubnetRouteTableAssociation1:
-    Condition: AZ1
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      RouteTableId: !Ref NatRouteTable1
-      SubnetId: !Ref WebSubnet1
-  WebSubnetRouteTableAssociation2:
-    Condition: AZ2
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      RouteTableId: !Ref NatRouteTable2
-      SubnetId: !Ref WebSubnet2
-  WebSubnetRouteTableAssociation3:
-    Condition: AZ3
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      RouteTableId: !Ref NatRouteTable3
-      SubnetId: !Ref WebSubnet3
-  WebSubnetRouteTableAssociation4:
-    Condition: AZ4
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      RouteTableId: !Ref NatRouteTable4
-      SubnetId: !Ref WebSubnet4
-  WebSubnetRouteTableAssociation5:
-    Condition: AZ5
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      RouteTableId: !Ref NatRouteTable5
-      SubnetId: !Ref WebSubnet5
+#  WebSubnetRouteTableAssociation0:
+#    Condition: AZ0
+#    Type: AWS::EC2::SubnetRouteTableAssociation
+#    Properties:
+#      RouteTableId: !Ref NatRouteTable0
+#      SubnetId: !Ref WebSubnet0
+#  WebSubnetRouteTableAssociation1:
+#    Condition: AZ1
+#    Type: AWS::EC2::SubnetRouteTableAssociation
+#    Properties:
+#      RouteTableId: !Ref NatRouteTable1
+#      SubnetId: !Ref WebSubnet1
+#  WebSubnetRouteTableAssociation2:
+#    Condition: AZ2
+#    Type: AWS::EC2::SubnetRouteTableAssociation
+#    Properties:
+#      RouteTableId: !Ref NatRouteTable2
+#      SubnetId: !Ref WebSubnet2
+#  WebSubnetRouteTableAssociation3:
+#    Condition: AZ3
+#    Type: AWS::EC2::SubnetRouteTableAssociation
+#    Properties:
+#      RouteTableId: !Ref NatRouteTable3
+#      SubnetId: !Ref WebSubnet3
+#  WebSubnetRouteTableAssociation4:
+#    Condition: AZ4
+#    Type: AWS::EC2::SubnetRouteTableAssociation
+#    Properties:
+#      RouteTableId: !Ref NatRouteTable4
+#      SubnetId: !Ref WebSubnet4
+#  WebSubnetRouteTableAssociation5:
+#    Condition: AZ5
+#    Type: AWS::EC2::SubnetRouteTableAssociation
+#    Properties:
+#      RouteTableId: !Ref NatRouteTable5
+#      SubnetId: !Ref WebSubnet5
 
   DataSubnet0:
     Condition: AZ0
@@ -456,42 +456,42 @@ Resources:
           Value: Private
       VpcId: !Ref Vpc
 
-  DataSubnetRouteTableAssociation0:
-    Condition: AZ0
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      RouteTableId: !Ref NatRouteTable0
-      SubnetId: !Ref DataSubnet0
-  DataSubnetRouteTableAssociation1:
-    Condition: AZ1
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      RouteTableId: !Ref NatRouteTable1
-      SubnetId: !Ref DataSubnet1
-  DataSubnetRouteTableAssociation2:
-    Condition: AZ2
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      RouteTableId: !Ref NatRouteTable2
-      SubnetId: !Ref DataSubnet2
-  DataSubnetRouteTableAssociation3:
-    Condition: AZ3
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      RouteTableId: !Ref NatRouteTable3
-      SubnetId: !Ref DataSubnet3
-  DataSubnetRouteTableAssociation4:
-    Condition: AZ4
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      RouteTableId: !Ref NatRouteTable4
-      SubnetId: !Ref DataSubnet4
-  DataSubnetRouteTableAssociation5:
-    Condition: AZ5
-    Type: AWS::EC2::SubnetRouteTableAssociation
-    Properties:
-      RouteTableId: !Ref NatRouteTable5
-      SubnetId: !Ref DataSubnet5
+#  DataSubnetRouteTableAssociation0:
+#    Condition: AZ0
+#    Type: AWS::EC2::SubnetRouteTableAssociation
+#    Properties:
+#      RouteTableId: !Ref NatRouteTable0
+#      SubnetId: !Ref DataSubnet0
+#  DataSubnetRouteTableAssociation1:
+#    Condition: AZ1
+#    Type: AWS::EC2::SubnetRouteTableAssociation
+#    Properties:
+#      RouteTableId: !Ref NatRouteTable1
+#      SubnetId: !Ref DataSubnet1
+#  DataSubnetRouteTableAssociation2:
+#    Condition: AZ2
+#    Type: AWS::EC2::SubnetRouteTableAssociation
+#    Properties:
+#      RouteTableId: !Ref NatRouteTable2
+#      SubnetId: !Ref DataSubnet2
+#  DataSubnetRouteTableAssociation3:
+#    Condition: AZ3
+#    Type: AWS::EC2::SubnetRouteTableAssociation
+#    Properties:
+#      RouteTableId: !Ref NatRouteTable3
+#      SubnetId: !Ref DataSubnet3
+#  DataSubnetRouteTableAssociation4:
+#    Condition: AZ4
+#    Type: AWS::EC2::SubnetRouteTableAssociation
+#    Properties:
+#      RouteTableId: !Ref NatRouteTable4
+#      SubnetId: !Ref DataSubnet4
+#  DataSubnetRouteTableAssociation5:
+#    Condition: AZ5
+#    Type: AWS::EC2::SubnetRouteTableAssociation
+#    Properties:
+#      RouteTableId: !Ref NatRouteTable5
+#      SubnetId: !Ref DataSubnet5
 
   InternetGateway:
     Type: AWS::EC2::InternetGateway
@@ -504,186 +504,186 @@ Resources:
     Properties:
       InternetGatewayId: !Ref InternetGateway
       VpcId: !Ref Vpc
-
-  NatEIP0:
-    Condition: AZ0
-    Type: AWS::EC2::EIP
-    Properties:
-      Domain: vpc
-  NatGateway0:
-    Condition: AZ0
-    Type: AWS::EC2::NatGateway
-    DependsOn: AttachInternetGateway
-    Properties:
-      AllocationId: !GetAtt NatEIP0.AllocationId
-      SubnetId: !Ref PublicSubnet0
-  NatRoute0:
-    Condition: AZ0
-    Type: AWS::EC2::Route
-    Properties:
-      RouteTableId: !Ref NatRouteTable0
-      DestinationCidrBlock: 0.0.0.0/0
-      NatGatewayId: !Ref NatGateway0
-  NatRouteTable0:
-    Condition: AZ0
-    Type: AWS::EC2::RouteTable
-    Properties:
-      Tags:
-        - Key: Name
-          Value: !Join [ '', ['NatRouteTable0 / ', !Ref 'AWS::StackName' ] ]
-        - Key: Network
-          Value: Public
-      VpcId: !Ref Vpc
-
-  NatEIP1:
-    Condition: AZ1
-    Type: AWS::EC2::EIP
-    Properties:
-      Domain: vpc
-  NatGateway1:
-    Condition: AZ1
-    Type: AWS::EC2::NatGateway
-    DependsOn: AttachInternetGateway
-    Properties:
-      AllocationId: !GetAtt NatEIP1.AllocationId
-      SubnetId: !Ref PublicSubnet1
-  NatRoute1:
-    Condition: AZ1
-    Type: AWS::EC2::Route
-    Properties:
-      RouteTableId: !Ref NatRouteTable1
-      DestinationCidrBlock: 0.0.0.0/0
-      NatGatewayId: !Ref NatGateway1
-  NatRouteTable1:
-    Condition: AZ1
-    Type: AWS::EC2::RouteTable
-    Properties:
-      Tags:
-        - Key: Name
-          Value: !Join [ '', [ 'NatRouteTable1 / ', !Ref 'AWS::StackName' ] ]
-        - Key: Network
-          Value: Public
-      VpcId: !Ref Vpc
-
-  NatEIP2:
-    Condition: AZ2
-    Type: AWS::EC2::EIP
-    Properties:
-      Domain: vpc
-  NatGateway2:
-    Condition: AZ2
-    Type: AWS::EC2::NatGateway
-    DependsOn: AttachInternetGateway
-    Properties:
-      AllocationId: !GetAtt NatEIP2.AllocationId
-      SubnetId: !Ref PublicSubnet2
-  NatRoute2:
-    Condition: AZ2
-    Type: AWS::EC2::Route
-    Properties:
-      RouteTableId: !Ref NatRouteTable2
-      DestinationCidrBlock: 0.0.0.0/0
-      NatGatewayId: !Ref NatGateway2
-  NatRouteTable2:
-    Condition: AZ2
-    Type: AWS::EC2::RouteTable
-    Properties:
-      Tags:
-        - Key: Name
-          Value: !Join [ '', [ 'NatRouteTable2 / ', !Ref 'AWS::StackName' ] ]
-        - Key: Network
-          Value: Public
-      VpcId: !Ref Vpc
-
-  NatEIP3:
-    Condition: AZ3
-    Type: AWS::EC2::EIP
-    Properties:
-      Domain: vpc
-  NatGateway3:
-    Condition: AZ3
-    Type: AWS::EC2::NatGateway
-    DependsOn: AttachInternetGateway
-    Properties:
-      AllocationId: !GetAtt NatEIP3.AllocationId
-      SubnetId: !Ref PublicSubnet3
-  NatRoute3:
-    Condition: AZ3
-    Type: AWS::EC2::Route
-    Properties:
-      RouteTableId: !Ref NatRouteTable3
-      DestinationCidrBlock: 0.0.0.0/0
-      NatGatewayId: !Ref NatGateway3
-  NatRouteTable3:
-    Condition: AZ3
-    Type: AWS::EC2::RouteTable
-    Properties:
-      Tags:
-        - Key: Name
-          Value: !Join [ '', [ 'NatRouteTable3 / ', !Ref 'AWS::StackName' ] ]
-        - Key: Network
-          Value: Public
-      VpcId: !Ref Vpc
-
-  NatEIP4:
-    Condition: AZ4
-    Type: AWS::EC2::EIP
-    Properties:
-      Domain: vpc
-  NatGateway4:
-    Condition: AZ4
-    Type: AWS::EC2::NatGateway
-    DependsOn: AttachInternetGateway
-    Properties:
-      AllocationId: !GetAtt NatEIP4.AllocationId
-      SubnetId: !Ref PublicSubnet4
-  NatRoute4:
-    Condition: AZ4
-    Type: AWS::EC2::Route
-    Properties:
-      RouteTableId: !Ref NatRouteTable4
-      DestinationCidrBlock: 0.0.0.0/0
-      NatGatewayId: !Ref NatGateway4
-  NatRouteTable4:
-    Condition: AZ4
-    Type: AWS::EC2::RouteTable
-    Properties:
-      Tags:
-        - Key: Name
-          Value: !Join [ '', [ 'NatRouteTable4 / ', !Ref 'AWS::StackName' ] ]
-        - Key: Network
-          Value: Public
-      VpcId: !Ref Vpc
-
-  NatEIP5:
-    Condition: AZ5
-    Type: AWS::EC2::EIP
-    Properties:
-      Domain: vpc
-  NatGateway5:
-    Condition: AZ5
-    Type: AWS::EC2::NatGateway
-    DependsOn: AttachInternetGateway
-    Properties:
-      AllocationId: !GetAtt NatEIP5.AllocationId
-      SubnetId: !Ref PublicSubnet5
-  NatRoute5:
-    Condition: AZ5
-    Type: AWS::EC2::Route
-    Properties:
-      RouteTableId: !Ref NatRouteTable5
-      DestinationCidrBlock: 0.0.0.0/0
-      NatGatewayId: !Ref NatGateway5
-  NatRouteTable5:
-    Condition: AZ5
-    Type: AWS::EC2::RouteTable
-    Properties:
-      Tags:
-        - Key: Name
-          Value: !Join [ '', [ 'NatRouteTable5 / ', !Ref 'AWS::StackName' ] ]
-        - Key: Network
-          Value: Public
-      VpcId: !Ref Vpc
+#
+#  NatEIP0:
+#    Condition: AZ0
+#    Type: AWS::EC2::EIP
+#    Properties:
+#      Domain: vpc
+#  NatGateway0:
+#    Condition: AZ0
+#    Type: AWS::EC2::NatGateway
+#    DependsOn: AttachInternetGateway
+#    Properties:
+#      AllocationId: !GetAtt NatEIP0.AllocationId
+#      SubnetId: !Ref PublicSubnet0
+#  NatRoute0:
+#    Condition: AZ0
+#    Type: AWS::EC2::Route
+#    Properties:
+#      RouteTableId: !Ref NatRouteTable0
+#      DestinationCidrBlock: 0.0.0.0/0
+#      NatGatewayId: !Ref NatGateway0
+#  NatRouteTable0:
+#    Condition: AZ0
+#    Type: AWS::EC2::RouteTable
+#    Properties:
+#      Tags:
+#        - Key: Name
+#          Value: !Join [ '', ['NatRouteTable0 / ', !Ref 'AWS::StackName' ] ]
+#        - Key: Network
+#          Value: Public
+#      VpcId: !Ref Vpc
+#
+#  NatEIP1:
+#    Condition: AZ1
+#    Type: AWS::EC2::EIP
+#    Properties:
+#      Domain: vpc
+#  NatGateway1:
+#    Condition: AZ1
+#    Type: AWS::EC2::NatGateway
+#    DependsOn: AttachInternetGateway
+#    Properties:
+#      AllocationId: !GetAtt NatEIP1.AllocationId
+#      SubnetId: !Ref PublicSubnet1
+#  NatRoute1:
+#    Condition: AZ1
+#    Type: AWS::EC2::Route
+#    Properties:
+#      RouteTableId: !Ref NatRouteTable1
+#      DestinationCidrBlock: 0.0.0.0/0
+#      NatGatewayId: !Ref NatGateway1
+#  NatRouteTable1:
+#    Condition: AZ1
+#    Type: AWS::EC2::RouteTable
+#    Properties:
+#      Tags:
+#        - Key: Name
+#          Value: !Join [ '', [ 'NatRouteTable1 / ', !Ref 'AWS::StackName' ] ]
+#        - Key: Network
+#          Value: Public
+#      VpcId: !Ref Vpc
+#
+#  NatEIP2:
+#    Condition: AZ2
+#    Type: AWS::EC2::EIP
+#    Properties:
+#      Domain: vpc
+#  NatGateway2:
+#    Condition: AZ2
+#    Type: AWS::EC2::NatGateway
+#    DependsOn: AttachInternetGateway
+#    Properties:
+#      AllocationId: !GetAtt NatEIP2.AllocationId
+#      SubnetId: !Ref PublicSubnet2
+#  NatRoute2:
+#    Condition: AZ2
+#    Type: AWS::EC2::Route
+#    Properties:
+#      RouteTableId: !Ref NatRouteTable2
+#      DestinationCidrBlock: 0.0.0.0/0
+#      NatGatewayId: !Ref NatGateway2
+#  NatRouteTable2:
+#    Condition: AZ2
+#    Type: AWS::EC2::RouteTable
+#    Properties:
+#      Tags:
+#        - Key: Name
+#          Value: !Join [ '', [ 'NatRouteTable2 / ', !Ref 'AWS::StackName' ] ]
+#        - Key: Network
+#          Value: Public
+#      VpcId: !Ref Vpc
+#
+#  NatEIP3:
+#    Condition: AZ3
+#    Type: AWS::EC2::EIP
+#    Properties:
+#      Domain: vpc
+#  NatGateway3:
+#    Condition: AZ3
+#    Type: AWS::EC2::NatGateway
+#    DependsOn: AttachInternetGateway
+#    Properties:
+#      AllocationId: !GetAtt NatEIP3.AllocationId
+#      SubnetId: !Ref PublicSubnet3
+#  NatRoute3:
+#    Condition: AZ3
+#    Type: AWS::EC2::Route
+#    Properties:
+#      RouteTableId: !Ref NatRouteTable3
+#      DestinationCidrBlock: 0.0.0.0/0
+#      NatGatewayId: !Ref NatGateway3
+#  NatRouteTable3:
+#    Condition: AZ3
+#    Type: AWS::EC2::RouteTable
+#    Properties:
+#      Tags:
+#        - Key: Name
+#          Value: !Join [ '', [ 'NatRouteTable3 / ', !Ref 'AWS::StackName' ] ]
+#        - Key: Network
+#          Value: Public
+#      VpcId: !Ref Vpc
+#
+#  NatEIP4:
+#    Condition: AZ4
+#    Type: AWS::EC2::EIP
+#    Properties:
+#      Domain: vpc
+#  NatGateway4:
+#    Condition: AZ4
+#    Type: AWS::EC2::NatGateway
+#    DependsOn: AttachInternetGateway
+#    Properties:
+#      AllocationId: !GetAtt NatEIP4.AllocationId
+#      SubnetId: !Ref PublicSubnet4
+#  NatRoute4:
+#    Condition: AZ4
+#    Type: AWS::EC2::Route
+#    Properties:
+#      RouteTableId: !Ref NatRouteTable4
+#      DestinationCidrBlock: 0.0.0.0/0
+#      NatGatewayId: !Ref NatGateway4
+#  NatRouteTable4:
+#    Condition: AZ4
+#    Type: AWS::EC2::RouteTable
+#    Properties:
+#      Tags:
+#        - Key: Name
+#          Value: !Join [ '', [ 'NatRouteTable4 / ', !Ref 'AWS::StackName' ] ]
+#        - Key: Network
+#          Value: Public
+#      VpcId: !Ref Vpc
+#
+#  NatEIP5:
+#    Condition: AZ5
+#    Type: AWS::EC2::EIP
+#    Properties:
+#      Domain: vpc
+#  NatGateway5:
+#    Condition: AZ5
+#    Type: AWS::EC2::NatGateway
+#    DependsOn: AttachInternetGateway
+#    Properties:
+#      AllocationId: !GetAtt NatEIP5.AllocationId
+#      SubnetId: !Ref PublicSubnet5
+#  NatRoute5:
+#    Condition: AZ5
+#    Type: AWS::EC2::Route
+#    Properties:
+#      RouteTableId: !Ref NatRouteTable5
+#      DestinationCidrBlock: 0.0.0.0/0
+#      NatGatewayId: !Ref NatGateway5
+#  NatRouteTable5:
+#    Condition: AZ5
+#    Type: AWS::EC2::RouteTable
+#    Properties:
+#      Tags:
+#        - Key: Name
+#          Value: !Join [ '', [ 'NatRouteTable5 / ', !Ref 'AWS::StackName' ] ]
+#        - Key: Network
+#          Value: Public
+#      VpcId: !Ref Vpc
 
   PublicRoute:
     Type: AWS::EC2::Route

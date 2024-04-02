@@ -705,23 +705,23 @@ Conditions:
 
 Resources:
 
-  bastion:
-    Condition: AvailableAWSRegion
-    DependsOn: [ newvpc, securitygroups ]
-    Type: AWS::Serverless::Application
-    Properties:
-      Parameters:
-        BastionInstanceType:
-          !Ref BastionInstanceType
-        BastionSecurityGroup:
-          !GetAtt [ securitygroups, Outputs.BastionSecurityGroup ]
-        EC2KeyName:
-          !Ref EC2KeyName
-        NumberOfSubnets:
-          !Ref NumberOfAZs
-        Subnet:
-          !GetAtt [ newvpc, Outputs.PublicSubnet ]
-      Location: ./wordpress-03-bastion.yaml
+#  bastion:
+#    Condition: AvailableAWSRegion
+#    DependsOn: [ newvpc, securitygroups ]
+#    Type: AWS::Serverless::Application
+#    Properties:
+#      Parameters:
+#        BastionInstanceType:
+#          !Ref BastionInstanceType
+#        BastionSecurityGroup:
+#          !GetAtt [ securitygroups, Outputs.BastionSecurityGroup ]
+#        EC2KeyName:
+#          !Ref EC2KeyName
+#        NumberOfSubnets:
+#          !Ref NumberOfAZs
+#        Subnet:
+#          !GetAtt [ newvpc, Outputs.PublicSubnet ]
+#      Location: ./wordpress-03-bastion.yaml
   cloudfront:
     Condition: DeployCloudFront
     DependsOn: [ publicalb, web ]
